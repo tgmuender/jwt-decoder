@@ -1,16 +1,25 @@
 package main
 
 import (
-	"fmt"
-	"strings"
+	"bufio"
 	"encoding/base64"
 	"encoding/json"
-	"bufio"
+	"fmt"
 	"os"
+	"strings"
 )
 
 func main() {
-	token := readInput()
+
+	args := os.Args[1:]
+
+	var token string
+	if len(args) == 0 {
+		// No args passed, read from stdin
+		token = readInput()
+	} else {
+		token = os.Args[1]
+	}
 
 	var parts []string = strings.Split(token, ".")
 
@@ -34,7 +43,7 @@ func main() {
 			return
 		}
 
-		indentedJson, error:= json.MarshalIndent(objmap, "", "\t")
+		indentedJson, error := json.MarshalIndent(objmap, "", "\t")
 		fmt.Println(string(indentedJson))
 	}
 }
